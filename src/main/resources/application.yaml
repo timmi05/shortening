@@ -4,6 +4,7 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     show-sql: false
+    open-in-view: false
     hibernate:
       ddl-auto: update
 

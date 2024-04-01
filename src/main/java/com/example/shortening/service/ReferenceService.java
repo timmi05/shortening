@@ -32,7 +32,7 @@ public class ReferenceService {
 
     @Transactional
     public Reference createShortReference(String originalReference) {
-        String shortReference = getShortReference();
+        String shortReference = generateShortReference();
 
         Reference reference = new Reference();
         reference.setOriginalReference(originalReference);
@@ -41,7 +41,7 @@ public class ReferenceService {
         return referenceRepository.saveAndFlush(reference);
     }
 
-    private String getShortReference() {
+    private String generateShortReference() {
         String shortReference = "";
         for (int index = 0; index < 10; index++) {
             shortReference = RandomStringUtils.random(getRandomLengthOfShortReference(), true, true);
@@ -51,7 +51,7 @@ public class ReferenceService {
                 break;
             }
             if (index == 9) {
-                throw new InternalException("Internal server exception, Please, try one more time later");
+                throw new InternalException("Internal server exception. Please, try one more time later");
             }
         }
         return shortReference;
