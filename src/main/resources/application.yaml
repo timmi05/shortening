@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    name: estate
+    driverClassName: org.h2.Driver
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+
+reference:
+  size:
+    min: 6
+    max: 8
+
+server:
+  port : 8080
