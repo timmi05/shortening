@@ -1,6 +1,5 @@
 package com.example.shortening.controller;
 
-import com.example.shortening.model.Reference;
 import com.example.shortening.service.ReferenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +16,16 @@ public class ReferenceController {
     private final ReferenceService referenceService;
 
     @GetMapping(value = {"/{shortUrl}"})
-    public ResponseEntity<?> redirectToOriginalReference(@PathVariable String shortUrl) {
-        String originalReference = referenceService.getOriginalReference(shortUrl);
+    public ResponseEntity<?> redirectToOriginalURL(@PathVariable String shortUrl) {
+        String originalUrl = referenceService.getOriginalUrl(shortUrl);
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
-                .header(HttpHeaders.LOCATION, originalReference).build();
+                .header(HttpHeaders.LOCATION, originalUrl).build();
     }
 
     @PostMapping(value = {"/shorten"})
-    public ResponseEntity<Reference> createShortReference(@RequestBody String reference) {
-        Reference newReference = referenceService.createShortReference(reference);
-        log.info("Called method create short reference for full reference: {}", reference);
-        return new ResponseEntity<>(newReference, HttpStatus.CREATED);
+    public ResponseEntity<String> createShortURL(@RequestBody String originalUrl) {
+        String shortUrl = referenceService.createShortUrl(originalUrl).getShortUrl();
+        log.info("Created short URL: {} for original URL: {}", shortUrl, originalUrl);
+        return new ResponseEntity<>(shortUrl, HttpStatus.CREATED);
     }
 }

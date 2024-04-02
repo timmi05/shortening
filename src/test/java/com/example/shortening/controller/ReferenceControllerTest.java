@@ -15,34 +15,34 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ReferenceControllerTest {
-    private static final String ORIGINAL_REFERENCE = "original_reference";
-    private static final String SHORT_REFERENCE = "short_reference";
+    private static final String ORIGINAL_URL = "original_url";
+    private static final String SHORT_URL = "short_url";
     @InjectMocks
     private ReferenceController referenceController;
     @Mock
     private ReferenceService referenceService;
 
     @Test
-    void shouldRedirectToOriginalReference() {
-        when(referenceService.getOriginalReference(SHORT_REFERENCE)).thenReturn(ORIGINAL_REFERENCE);
+    void shouldRedirectToOriginalUrl() {
+        when(referenceService.getOriginalUrl(SHORT_URL)).thenReturn(ORIGINAL_URL);
 
-        ResponseEntity<?> result = referenceController.redirectToOriginalReference(SHORT_REFERENCE);
+        ResponseEntity<?> result = referenceController.redirectToOriginalURL(SHORT_URL);
 
         assertEquals(HttpStatus.MOVED_PERMANENTLY, result.getStatusCode());
-        assertEquals(ORIGINAL_REFERENCE, result.getHeaders().getLocation().getPath());
+        assertEquals(ORIGINAL_URL, result.getHeaders().getLocation().getPath());
     }
 
     @Test
-    void shouldCreateShortReference() {
+    void shouldCreateShortUrl() {
         Reference reference = new Reference();
         reference.setId(1);
-        reference.setOriginalReference(ORIGINAL_REFERENCE);
-        reference.setShortReference(SHORT_REFERENCE);
-        when(referenceService.createShortReference(ORIGINAL_REFERENCE)).thenReturn(reference);
+        reference.setOriginalUrl(ORIGINAL_URL);
+        reference.setShortUrl(SHORT_URL);
+        when(referenceService.createShortUrl(ORIGINAL_URL)).thenReturn(reference);
 
-        ResponseEntity<Reference> result = referenceController.createShortReference(ORIGINAL_REFERENCE);
+        ResponseEntity<String> result = referenceController.createShortURL(ORIGINAL_URL);
 
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        assertEquals(reference, result.getBody());
+        assertEquals(SHORT_URL, result.getBody());
     }
 }

@@ -20,33 +20,33 @@ public class ReferenceService {
     @Value("${reference.size.max}")
     private int max;
 
-    public String getOriginalReference(String shortReference) {
+    public String getOriginalUrl(String shortUrl) {
         Reference reference = referenceRepository
-                .findReferenceByShortReference(shortReference);
+                .findReferenceByShortUrl(shortUrl);
         if (reference != null) {
-            return reference.getOriginalReference();
+            return reference.getOriginalUrl();
         }
 
-        throw new EntityNotFoundException("Url " + shortReference + " not found");
+        throw new EntityNotFoundException("Url " + shortUrl + " not found");
     }
 
     @Transactional
-    public Reference createShortReference(String originalReference) {
-        String shortReference = generateShortReference();
+    public Reference createShortUrl(String originalUrl) {
+        String shortUrl = generateShortUrl();
 
         Reference reference = new Reference();
-        reference.setOriginalReference(originalReference);
-        reference.setShortReference(shortReference);
+        reference.setOriginalUrl(originalUrl);
+        reference.setShortUrl(shortUrl);
 
         return referenceRepository.saveAndFlush(reference);
     }
 
-    private String generateShortReference() {
-        String shortReference = "";
+    private String generateShortUrl() {
+        String shortUrl = "";
         for (int index = 0; index < 10; index++) {
-            shortReference = RandomStringUtils.random(getRandomLengthOfShortReference(), true, true);
+            shortUrl = RandomStringUtils.random(getRandomLengthOfShortUrl(), true, true);
             Reference reference = referenceRepository
-                    .findReferenceByShortReference(shortReference);
+                    .findReferenceByShortUrl(shortUrl);
             if (reference == null) {
                 break;
             }
@@ -54,10 +54,10 @@ public class ReferenceService {
                 throw new InternalException("Internal server exception. Please, try one more time later");
             }
         }
-        return shortReference;
+        return shortUrl;
     }
 
-    public int getRandomLengthOfShortReference() {
+    public int getRandomLengthOfShortUrl() {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
 }

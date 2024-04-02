@@ -11,8 +11,8 @@ public class Reference {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "short_reference", unique=true)
-    private String shortReference;
-    @Column(name = "original_reference")
-    private String originalReference;
+    @Column(name = "short_url", unique=true)
+    private String shortUrl;
+    @Column(name = "original_url")
+    private String originalUrl;
 }
