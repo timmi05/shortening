@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.*;
 public class ReferenceController {
     private final ReferenceService referenceService;
 
-    @GetMapping(value = {"/{url}"})
-    public ResponseEntity<?> redirectToOriginalReference(@PathVariable String url) {
-        String originalReference = referenceService.getOriginalReference(url);
+    @GetMapping(value = {"/{shortUrl}"})
+    public ResponseEntity<?> redirectToOriginalReference(@PathVariable String shortUrl) {
+        String originalReference = referenceService.getOriginalReference(shortUrl);
         return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
                 .header(HttpHeaders.LOCATION, originalReference).build();
     }
 
-    @PostMapping(value = {"/"})
-    public ResponseEntity<Reference> createShortReference(@RequestBody Reference reference) {
-        Reference newReference = referenceService.createShortReference(reference.getOriginalReference());
-        log.info("Called method create short reference for full reference: {}", reference.getOriginalReference());
+    @PostMapping(value = {"/shorten"})
+    public ResponseEntity<Reference> createShortReference(@RequestBody String reference) {
+        Reference newReference = referenceService.createShortReference(reference);
+        log.info("Called method create short reference for full reference: {}", reference);
         return new ResponseEntity<>(newReference, HttpStatus.CREATED);
     }
 }

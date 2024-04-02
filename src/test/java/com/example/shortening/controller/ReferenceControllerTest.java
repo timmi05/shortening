@@ -40,9 +40,7 @@ class ReferenceControllerTest {
         reference.setShortReference(SHORT_REFERENCE);
         when(referenceService.createShortReference(ORIGINAL_REFERENCE)).thenReturn(reference);
 
-        Reference input = new Reference();
-        input.setOriginalReference(ORIGINAL_REFERENCE);
-        ResponseEntity<Reference> result = referenceController.createShortReference(input);
+        ResponseEntity<Reference> result = referenceController.createShortReference(ORIGINAL_REFERENCE);
 
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
         assertEquals(reference, result.getBody());
